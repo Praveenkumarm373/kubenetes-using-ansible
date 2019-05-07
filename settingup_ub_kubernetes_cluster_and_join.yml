@@ -1,0 +1,4 @@
+---
+- import_playbook: playbooks/setting_up_ub_nodes.yml
+- import_playbook: playbooks/configure_ubmaster_node.yml
+- import_playbook: playbooks/configure_ubworker_nodes.yml

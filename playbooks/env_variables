@@ -1,0 +1,37 @@
+#Edit these values only as per your environment
+#Enter your master node advertise ip address and cidr range for the pods.
+ad_addr: 192.168.1.51
+uad_addr: 192.168.1.57
+cidr_v: 172.16.0.0/16
+ucidr_v: 172.10.0.0/16
+
+ubdocker:
+- apt-transport-https
+#- ca-certificates
+- curl
+#- software-properties-common
+
+packages:
+- docker
+- kubeadm
+- kubectl
+
+ubpackages:
+- docker.io
+- kubeadm
+
+services:
+- docker
+- kubelet
+- firewalld
+
+ubservices:
+- docker
+
+ports:
+- "6443/tcp"
+- "10250/tcp"
+
+token_file: join_token_cent
+utoken_file: join_token_ub
+

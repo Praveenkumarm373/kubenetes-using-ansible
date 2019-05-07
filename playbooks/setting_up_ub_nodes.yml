@@ -1,0 +1,49 @@
+---
+- hosts: ukubernetes-master-nodes,ukubernetes-worker-nodes
+  vars_files:
+  - env_variables 
+  tasks:
+  - name: Update apt cache
+    apt: update_cache=yes cache_valid_time=3600
+    become: yes
+
+  - name: update all nodes
+    shell: apt-get update -y
+
+  - name: Disabling Swap on all nodes
+    shell: swapoff -a
+
+  - name: Allow Network Ports in Firewalld
+    shell: ufw allow 6443/tcp 
+
+  - name: Allow Network Ports in Firewalld
+    shell: ufw allow 10250/tcp 
+  
+  - name: Installing required packages
+#    apt:
+#     name: "{{ item }}"
+#     update_cache: yes
+#    with_items: "{{ ubdocker }}"
+    shell: apt-get install apt-transport-https curl -y
+
+  - name: Add Docker GPG key
+    apt_key: url=https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+  - name: Add Docker APT repository
+    apt_repository:
+      repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+  - name: Installing required packages
+    apt:
+     name: "{{ item }}"
+     #update_cache: yes
+    with_items: "{{ ubpackages }}"
+    
+  - name: Starting and Enabling the required services
+    service:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+    with_items: "{{ ubservices }}"
+
+
