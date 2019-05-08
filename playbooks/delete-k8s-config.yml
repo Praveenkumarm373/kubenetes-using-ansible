@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: kubernetes-master-nodes,kubernetes-worker-nodes
 
   vars:
    packages:
